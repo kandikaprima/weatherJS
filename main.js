@@ -17,7 +17,8 @@ function getWeatherByCity(city) {
         const forecast = result.forecast;
 
         // check keadaan siang/malam
-        const localHour = new Date(location.localtime).getHours();
+        // const localHour = new Date(location.localtime).getHours();
+        const localHour = 10; // untuk cek siang[6-17]/malam[18-24/1-5] manual
         const nightMode = isNight(localHour);
 
         // Ngambil tag HMTL
@@ -38,6 +39,14 @@ function getWeatherByCity(city) {
             moon.style.display = "none";
         }
 
+        document.querySelector(".city").textContent = location.name;
+
+        document.querySelector(".date").textContent = new Date().toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
     }).catch(err => {
         console.error(err);
     })
