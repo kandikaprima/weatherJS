@@ -40,13 +40,16 @@ function getWeatherByCity(city) {
         }
 
         document.querySelector(".city").textContent = location.name;
-
         document.querySelector(".date").textContent = new Date().toLocaleDateString("id-ID", {
             weekday: "long",
             day: "numeric",
             month: "long",
             year: "numeric"
         });
+        document.querySelector(".humidity").textContent = `${current.humidity}%`;
+        document.querySelector(".wind").textContent = `${current.wind_kph} km/h`;
+        document.querySelector(".temperature").textContent = `${current.temp_c} °C`;
+        
     }).catch(err => {
         console.error(err);
     })
