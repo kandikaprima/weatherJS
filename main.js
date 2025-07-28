@@ -19,7 +19,7 @@ function isNight(hour) {
 }
 
 function getWeatherByCity(city) {
-    const URL = `http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${city}`
+    const URL = `http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${city}&days=4`
 
     fetch(URL)
     .then(response => response.json())
@@ -30,8 +30,8 @@ function getWeatherByCity(city) {
         const forecast = result.forecast;
 
         // check keadaan siang/malam
-        // const localHour = new Date(location.localtime).getHours();
-        const localHour = 10; // untuk cek siang[6-17]/malam[18-24/1-5] manual
+        const localHour = new Date(location.localtime).getHours();
+        // const localHour = 22; // untuk cek siang[6-17]/malam[18-24/1-5] manual
         const nightMode = isNight(localHour);
         const emoji = getIconEmoji(current.condition.code, nightMode);
 
@@ -64,8 +64,27 @@ function getWeatherByCity(city) {
         document.querySelector(".wind").textContent = `💨 ${current.wind_kph} km/h`;
         document.querySelector(".temperature").textContent = `${current.temp_c} °C`;
         document.querySelector(".weather-icon").textContent = emoji;
+
+        updateForecast(forecast.forecastday.slice(1, 4), nightMode);
     }).catch(err => {
         console.error(err);
+    })
+}
+
+function updateForecast(days, nightMode) {
+    const forecastItems = document.querySelectorAll(".forecast-item");
+
+    days.forEach((day, index) => {
+        const emoji = getIconEmoji(day.day.condition.code, nightMode);
+        const label = new Date(day.date).toLocaleDateString("id-ID", {
+            weekday: "long"
+        });
+
+        if(forecastItems[index]) {
+            forecastItems[index].querySelector(".weather-day").textContent = label;
+            forecastItems[index].querySelector(".weather-icon").textContent = emoji;
+            forecastItems[index].querySelector(".temperature-card").textContent = `${day.day.avgtemp_c} °C`;
+        }
     })
 }
 
