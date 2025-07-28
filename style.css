@@ -119,3 +119,34 @@ body[data-mode="night"] {
     font-size: 36px;
     color: white;
 }
+
+/* Sun and Moon Effects */
+.sun, .moon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    top: 135px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 30px #ffd700;
+    animation: pulse 3s ease-in-out infinite;
+    z-index: 0;
+    display: none;
+    transition: opacity 0.5s ease;
+}
+
+.sun {
+    background: #fff8b0;
+    box-shadow: 0 0 30px #ffd700;
+}
+
+.moon {
+    background: #fff;
+    box-shadow: 0 0 30px #fff;
+}
+
+@keyframes pulse {
+    0%, 100% {box-shadow: 0 0 30px currentColor; }
+    50% {box-shadow: 0 0 40px currentColor; }
+}
